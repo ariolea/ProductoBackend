@@ -2,6 +2,9 @@ package com.example.demo.Producto;
 
 import org.springframework.stereotype.Service;
 
+import java.util.Calendar;
+import java.util.Date;
+import java.sql.Timestamp;
 import java.util.List;
 
 @Service
@@ -35,11 +38,11 @@ public class ProductoService {
         producto.setDepartamento(productoDetails.getDepartamento());
         producto.setClase(productoDetails.getClase());
         producto.setFamilia(productoDetails.getFamilia());
-        producto.setFechaAlta(productoDetails.getFechaAlta());
+        producto.setFechaAlta(convertToTimestamp(productoDetails.getFechaAlta()));
         producto.setStock(productoDetails.getStock());
         producto.setCantidad(productoDetails.getCantidad());
         producto.setDescontinuado(productoDetails.getDescontinuado());
-        producto.setFechaBaja(productoDetails.getFechaBaja());
+        producto.setFechaBaja(convertToTimestamp(productoDetails.getFechaBaja()));
 
         productoRepository.update(producto);
         return producto;
@@ -47,5 +50,15 @@ public class ProductoService {
 
     public void deleteProducto(Long sku) {
         productoRepository.deleteById(sku);
+    }
+
+    private Timestamp convertToTimestamp(Date date) {
+        if (date == null) {
+            return null;
+        }
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.add(Calendar.DAY_OF_MONTH, +1);
+        return new Timestamp(cal.getTimeInMillis());
     }
 }

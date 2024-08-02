@@ -2,6 +2,7 @@ package com.example.demo.Producto;
 
 import lombok.Data;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 @Data
@@ -19,4 +20,13 @@ public class producto {
     private int cantidad;
     private int descontinuado;
     private Date fechaBaja;
+
+
+    public Timestamp getFechaAltaAsTimestamp() {
+        return fechaAlta != null ? new Timestamp(fechaAlta.getTime()) : null;
+    }
+
+    public Timestamp getFechaBajaAsTimestamp() {
+        return fechaBaja != null ? new Timestamp(fechaBaja.getTime()) : null;
+    }
 }
